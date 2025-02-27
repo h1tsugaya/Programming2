@@ -28,11 +28,8 @@ namespace View.Model
         /// </summary>
         public string Email
         {
-            get => email;
-            set
-            {
-                email = value;
-            }
+            get { return email; }
+            set { email = value; }
         }
 
         /// <summary>
@@ -40,11 +37,8 @@ namespace View.Model
         /// </summary>
         public string PhoneNumber
         {
-            get => phoneNumber;
-            set
-            {
-                phoneNumber = value;
-            }
+            get { return phoneNumber; }
+            set { phoneNumber = value; }
         }
 
         /// <summary>
