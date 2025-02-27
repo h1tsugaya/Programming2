@@ -6,12 +6,58 @@ using System.Threading.Tasks;
 
 namespace View.Model
 {
+    /// <summary>
+    /// Класс контакта.
+    /// </summary>
     public class Contact
     {
+
+        /// <summary>
+        /// Приватные поля номера телефона и почты.
+        /// </summary>
+        private string phoneNumber = "8-800-555-35-35";
+        private string email = "example@gma";
+
+        /// <summary>
+        /// Имя.
+        /// </summary>
         public string Name { get; set; }
 
-        public string Email { get; set; }
+        /// <summary>
+        /// Электронная почта.
+        /// </summary>
+        public string Email
+        {
+            get => email;
+            set
+            {
+                email = value;
+            }
+        }
 
-        public string Phone { get; set; }
+        /// <summary>
+        /// Номер телефона.
+        /// </summary>
+        public string PhoneNumber
+        {
+            get => phoneNumber;
+            set
+            {
+                phoneNumber = value;
+            }
+        }
+
+        /// <summary>
+        /// Экземпляр класса Contact.
+        /// </summary>
+        /// <param name="name">Имя.</param>
+        /// <param name="phoneNumber">Номер телефона.</param>
+        /// <param name="email">Электронная почта.</param>
+        public Contact(string name, string phoneNumber, string email)
+        {
+            Name = name;
+            PhoneNumber = phoneNumber;
+            Email = email;
+        }
     }
 }
