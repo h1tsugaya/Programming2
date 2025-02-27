@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using View.Model;
 
 namespace View.ViewModel
@@ -26,7 +27,12 @@ namespace View.ViewModel
         public MainVM()
         {
             _contact = new Contact(string.Empty, string.Empty, string.Empty);
+            SaveCommand = new SaveCommand(this);
+            LoadCommand = new LoadCommand(this);
         }
+
+        public ICommand SaveCommand { get; }
+        public ICommand LoadCommand { get; }
 
         /// <summary>
         /// Событие, уведомляющее об изменении свойства.

@@ -10,6 +10,13 @@ namespace View.ViewModel
     /// </summary>
     public class LoadCommand : ICommand
     {
+
+        private readonly MainVM _viewModel;
+
+        public LoadCommand(MainVM viewModel)
+        {
+            _viewModel = viewModel;
+        }
         /// <summary>
         /// Событие, которое вызывается при изменении условий выполнения команды.
         /// </summary>
@@ -17,7 +24,6 @@ namespace View.ViewModel
 
         /// <summary>
         /// Выполняет команду загрузки контакта из файла "contact_save.txt".
-        /// Если файл существует, считывает из него данные и создает объект Contact.
         /// </summary>
         /// <param name="parameter">Параметр команды.</param>
         public void Execute(object parameter)
@@ -30,8 +36,9 @@ namespace View.ViewModel
                     string[] data = File.ReadAllLines(filePath);
                     if (data.Length >= 3)
                     {
-                        Contact loadedContact = new Contact(data[0], data[1], data[2]);
-                        Console.WriteLine($"Загруженные данные: {loadedContact.Name}, {loadedContact.PhoneNumber}, {loadedContact.Email}");
+                        _viewModel.Name = data[0];
+                        _viewModel.PhoneNumber = data[1];
+                        _viewModel.Email = data[2];
                     }
                 }
                 catch (Exception ex)

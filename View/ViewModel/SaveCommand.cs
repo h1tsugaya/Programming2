@@ -10,6 +10,14 @@ namespace View.ViewModel
     /// </summary>
     public class SaveCommand : ICommand
     {
+
+        private readonly MainVM _viewModel;
+
+        public SaveCommand(MainVM viewModel)
+        {
+            _viewModel = viewModel;
+        }
+
         /// <summary>
         /// Событие, вызываемое при изменении условий выполнения команды.
         /// </summary>
@@ -21,17 +29,14 @@ namespace View.ViewModel
         /// <param name="parameter">Ожидается объект типа Contact.</param>
         public void Execute(object parameter)
         {
-            if (parameter is Contact contact)
+            string filePath = "contact_save.txt";
+            try
             {
-                string filePath = "contact_save.txt";
-                try
-                {
-                    File.WriteAllText(filePath, $"{contact.Name}\n{contact.PhoneNumber}\n{contact.Email}");
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Ошибка сохранения: {ex.Message}");
-                }
+                File.WriteAllText(filePath, $"{_viewModel.Name}\n{_viewModel.PhoneNumber}\n{_viewModel.Email}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Ошибка сохранения: {ex.Message}");
             }
         }
 
