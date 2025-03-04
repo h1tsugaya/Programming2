@@ -11,35 +11,20 @@ namespace View.Model
     /// </summary>
     public class Contact
     {
-
-        /// <summary>
-        /// Приватные поля номера телефона и почты.
-        /// </summary>
-        private string phoneNumber = "8-800-555-35-35";
-        private string email = "example@gma";
-
         /// <summary>
         /// Имя.
         /// </summary>
-        public string Name { get; set; }
+        public string Name { get; set; } = "Dave";
 
         /// <summary>
         /// Электронная почта.
         /// </summary>
-        public string Email
-        {
-            get { return email; }
-            set { email = value; }
-        }
+        public string Email { get; set; } = "example@gmail.com";
 
         /// <summary>
         /// Номер телефона.
         /// </summary>
-        public string PhoneNumber
-        {
-            get { return phoneNumber; }
-            set { phoneNumber = value; }
-        }
+        public string PhoneNumber { get; set; } = "8-800-555-35-35";
 
         /// <summary>
         /// Экземпляр класса Contact.
@@ -52,6 +37,17 @@ namespace View.Model
             Name = name;
             PhoneNumber = phoneNumber;
             Email = email;
+        }
+
+        /// <summary>
+        /// Конструктор класса Contact. По умолчанию пустой.
+        /// </summary>
+        public Contact()
+        {
+            Name = string.Empty;
+            PhoneNumber = string.Empty;
+            Email = string.Empty;
+
         }
     }
 }

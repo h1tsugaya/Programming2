@@ -31,7 +31,14 @@ namespace View.ViewModel
             LoadCommand = new LoadCommand(this);
         }
 
+        /// <summary>
+        /// Свойство для комманды сохранения.
+        /// </summary>
         public ICommand SaveCommand { get; }
+
+        /// <summary>
+        /// Свойство для команды загрузки.
+        /// </summary>
         public ICommand LoadCommand { get; }
 
         /// <summary>

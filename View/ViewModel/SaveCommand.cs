@@ -2,6 +2,7 @@
 using System.IO;
 using System.Windows.Input;
 using View.Model;
+using View.Model.Services;
 
 namespace View.ViewModel
 {
@@ -11,8 +12,15 @@ namespace View.ViewModel
     public class SaveCommand : ICommand
     {
 
+        /// <summary>
+        /// Приватное поле класса MainVM с информацией контакта.
+        /// </summary>
         private readonly MainVM _viewModel;
 
+        /// <summary>
+        /// Команда сохранения.
+        /// </summary>
+        /// <param name="viewModel"></param>
         public SaveCommand(MainVM viewModel)
         {
             _viewModel = viewModel;
@@ -29,15 +37,8 @@ namespace View.ViewModel
         /// <param name="parameter">Ожидается объект типа Contact.</param>
         public void Execute(object parameter)
         {
-            string filePath = "contact_save.txt";
-            try
-            {
-                File.WriteAllText(filePath, $"{_viewModel.Name}\n{_viewModel.PhoneNumber}\n{_viewModel.Email}");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Ошибка сохранения: {ex.Message}");
-            }
+            Contact contact = new Contact(_viewModel.Name, _viewModel.PhoneNumber, _viewModel.Email);
+            ContactSerializer.SaveContact(contact);
         }
 
         /// <summary>

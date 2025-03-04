@@ -2,6 +2,7 @@
 using System.IO;
 using System.Windows.Input;
 using View.Model;
+using View.Model.Services;
 
 namespace View.ViewModel
 {
@@ -11,12 +12,20 @@ namespace View.ViewModel
     public class LoadCommand : ICommand
     {
 
+        /// <summary>
+        /// Приватное поле класса MainVM с информацией контакта.
+        /// </summary>
         private readonly MainVM _viewModel;
 
+        /// <summary>
+        /// Команда загрузки.
+        /// </summary>
+        /// <param name="viewModel"></param>
         public LoadCommand(MainVM viewModel)
         {
             _viewModel = viewModel;
         }
+
         /// <summary>
         /// Событие, которое вызывается при изменении условий выполнения команды.
         /// </summary>
@@ -28,24 +37,10 @@ namespace View.ViewModel
         /// <param name="parameter">Параметр команды.</param>
         public void Execute(object parameter)
         {
-            string filePath = "contact_save.txt";
-            if (File.Exists(filePath))
-            {
-                try
-                {
-                    string[] data = File.ReadAllLines(filePath);
-                    if (data.Length >= 3)
-                    {
-                        _viewModel.Name = data[0];
-                        _viewModel.PhoneNumber = data[1];
-                        _viewModel.Email = data[2];
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Ошибка загрузки: {ex.Message}");
-                }
-            }
+            Contact contact = ContactSerializer.LoadContact();
+            _viewModel.Name = contact.Name;
+            _viewModel.PhoneNumber = contact.PhoneNumber;
+            _viewModel.Email = contact.Email;
         }
 
         /// <summary>
