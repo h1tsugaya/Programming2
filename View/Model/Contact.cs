@@ -1,30 +1,87 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace View.Model
 {
     /// <summary>
-    /// Класс контакта.
+    /// Класс, представляющий контакт с именем, номером телефона и электронной почтой.
+    /// Реализует интерфейс <see cref="INotifyPropertyChanged"/> для уведомления об изменениях свойств.
     /// </summary>
-    public class Contact
+    public class Contact : INotifyPropertyChanged
     {
         /// <summary>
-        /// Имя.
+        /// Приватные поля имени, номера телефона и эл. почты.
         /// </summary>
-        public string Name { get; set; } = "Dave";
+        private string _name;
+        private string _phoneNumber;
+        private string _email;
 
         /// <summary>
-        /// Электронная почта.
+        /// Событие, которое происходит при изменении значения свойства.
         /// </summary>
-        public string Email { get; set; } = "example@gmail.com";
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>
-        /// Номер телефона.
+        /// Получает или задает имя контакта.
         /// </summary>
-        public string PhoneNumber { get; set; } = "8-800-555-35-35";
+        public string Name
+        {
+            get => _name;
+            set
+            {
+                if (_name != value)
+                {
+                    _name = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Получает или задает номер телефона контакта.
+        /// </summary>
+        public string PhoneNumber
+        {
+            get => _phoneNumber;
+            set
+            {
+                if (_phoneNumber != value)
+                {
+                    _phoneNumber = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Получает или задает электронную почту контакта.
+        /// </summary>
+        public string Email
+        {
+            get => _email;
+            set
+            {
+                if (_email != value)
+                {
+                    _email = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Уведомляет об изменении значения свойства.
+        /// </summary>
+        /// <param name="propertyName">Имя измененного свойства.</param>
+        private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
 
         /// <summary>
         /// Экземпляр класса Contact.
@@ -40,14 +97,43 @@ namespace View.Model
         }
 
         /// <summary>
-        /// Конструктор класса Contact. По умолчанию пустой.
+        /// Конструктор класса Contact.
         /// </summary>
         public Contact()
         {
-            Name = string.Empty;
-            PhoneNumber = string.Empty;
-            Email = string.Empty;
+            Name = "Dave";
+            PhoneNumber = "8-800-555-35-35";
+            Email = "example@gmail.com";
 
+        }
+
+        /// <summary>
+        /// Копирует значения свойств текущего объекта в другой объект <see cref="Contact"/>.
+        /// </summary>
+        /// <param name="otherContact">Объект, в который копируются значения.</param>
+        public void CopyValues(Contact otherContact)
+        {
+            otherContact.Name = Name;
+            otherContact.PhoneNumber = PhoneNumber;
+            otherContact.Email = Email;
+        }
+
+        /// <summary>
+        /// Создает новый объект <see cref="Contact"/>, который является копией текущего экземпляра.
+        /// </summary>
+        /// <returns>Новый объект <see cref="Contact"/>, который является копией текущего экземпляра.</returns>
+        public Contact Clone()
+        {
+            return (Contact)MemberwiseClone();
+        }
+
+        /// <summary>
+        /// Возвращает строковое представление объекта <see cref="Contact"/>.
+        /// </summary>
+        /// <returns>Имя контакта в виде строки.</returns>
+        public override string ToString()
+        {
+            return Name;
         }
     }
 }
