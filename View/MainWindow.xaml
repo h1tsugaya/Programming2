@@ -5,16 +5,25 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:converter="clr-namespace:View.Converter"
         xmlns:ViewModel="clr-namespace:View.ViewModel" 
-        xmlns:Model="clr-namespace:View.Model" 
+        xmlns:Model="clr-namespace:View.Model"
+        xmlns:Control="clr-namespace:View.Control"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
         Title="Contacts" MinHeight="450" MinWidth="800" Icon="/contacts_96x96.ico" Padding="15">
-    <Window.Resources>
-        <converter:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
-    </Window.Resources>
-        <Window.DataContext>
+    <Window.DataContext>
         <ViewModel:MainVM/>
     </Window.DataContext>
+    <Window.Resources>
+        <DataTemplate x:Key="contactTemplate">
+            <StackPanel Orientation="Horizontal">
+                <Image Height="30" Width="30" Source="/contacts_96x96.ico" Margin="0,0,3,0"/>
+                <StackPanel Margin="3">
+                    <TextBlock Text="{Binding Name}" FontWeight="Bold" />
+                    <TextBlock Text="{Binding PhoneNumber}"/>
+                </StackPanel>
+            </StackPanel>
+        </DataTemplate>
+    </Window.Resources>
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Closing">
             <i:InvokeCommandAction Command="{Binding SaveCommand}"/>
@@ -26,23 +35,6 @@
             <ColumnDefinition Width="3*"/>
         </Grid.ColumnDefinitions>
         <GridSplitter Grid.Column="1" HorizontalAlignment="Left" Width="3" Grid.ColumnSpan="1" Background="White"/>
-        <Grid Grid.Column="1" Margin="8">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-            <StackPanel Margin="3" Grid.ColumnSpan="2" Grid.Column="1">
-                <Label Content="Name:" Margin="3" Padding="0"/>
-                <TextBox TextWrapping="Wrap" Margin="3" Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="{Binding IsReadOnlyContactTextBoxes}"/>
-                <Label Content="Phone Number:" Margin="3" Padding="0"/>
-                <TextBox TextWrapping="Wrap" Margin="3" Text="{Binding PhoneNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="{Binding IsReadOnlyContactTextBoxes}"/>
-                <Label Content="Email:" Margin="3" Padding="0"/>
-                <TextBox TextWrapping="Wrap" Margin="3" Text="{Binding Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="{Binding IsReadOnlyContactTextBoxes}"/>
-                <Button Content="Apply" Height="25" Margin="3,50,3,3" Width="75" HorizontalAlignment="Left" Command="{Binding ApplyCommand}" Visibility="{Binding IsApplyVisible, 
-                  Converter={StaticResource BoolToVisibilityConverter}}"/>
-            </StackPanel>
-            <Image Height="100" VerticalAlignment="Top" Width="100" Source="/icon-user.png" Margin="3,28,3,0"/>
-        </Grid>
         <Grid Background="#FFF8F8F8">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
@@ -59,7 +51,8 @@
                 <Button Content="Edit" Margin="3" VerticalAlignment="Top" Height="25" Grid.Column="1" Command="{Binding EditContactCommand}"/>
                 <Button Content="Remove" Margin="3" VerticalAlignment="Top" Height="25" Grid.Column="2" Command="{Binding RemoveContactCommand}"/>
             </Grid>
-            <ListBox Grid.Row="1" ItemsSource="{Binding Contacts}" SelectedItem="{Binding SelectedContact, Mode=TwoWay}" DisplayMemberPath="Name" Background="#f8f8f8" Margin="11, 3" />
+            <ListBox Grid.Row="1" ItemsSource="{Binding Contacts}" SelectedItem="{Binding SelectedContact, Mode=TwoWay}"
+                     Background="#f8f8f8" Margin="11,3" ItemTemplate="{StaticResource contactTemplate}" />
             <Grid Margin="8,8,8,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
@@ -69,5 +62,7 @@
                 <Label Content="Find:" Padding="0" Margin="3" VerticalAlignment="Center" HorizontalAlignment="Left"/>
             </Grid>
         </Grid>
+        <Control:ContactControl Grid.Column="1" Margin="11" />
+        <GridSplitter Grid.Column="1" HorizontalAlignment="Left" Width="3" Background="White"/>
     </Grid>
 </Window>

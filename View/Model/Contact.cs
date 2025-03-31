@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace View.Model
@@ -12,7 +13,7 @@ namespace View.Model
     /// Класс, представляющий контакт с именем, номером телефона и электронной почтой.
     /// Реализует интерфейс <see cref="INotifyPropertyChanged"/> для уведомления об изменениях свойств.
     /// </summary>
-    public class Contact : INotifyPropertyChanged
+    public class Contact : INotifyPropertyChanged, IDataErrorInfo
     {
         /// <summary>
         /// Приватные поля имени, номера телефона и эл. почты.
@@ -128,12 +129,75 @@ namespace View.Model
         }
 
         /// <summary>
-        /// Возвращает строковое представление объекта <see cref="Contact"/>.
+        /// Индексатор, позволяющий обращаться к экземпляру класса как к массиву или словарю,
+        /// используя ключ.
         /// </summary>
-        /// <returns>Имя контакта в виде строки.</returns>
-        public override string ToString()
+        /// <param name="propertyName"></param>
+        /// <returns></returns>
+        public string this[string propertyName]
         {
-            return Name;
+            get
+            {
+                string error = string.Empty;
+                switch (propertyName)
+                {
+                    case nameof(Name):
+                        if (string.IsNullOrWhiteSpace(Name))
+                        {
+                            error = "Имя обязательно для заполнения.";
+                        }
+                        else if (Name.Length > 100)
+                        {
+                            error = "Имя не может превышать 100 символов.";
+                        }
+
+                        break;
+                    case nameof(PhoneNumber):
+                        if (string.IsNullOrEmpty(PhoneNumber))
+                        {
+                            error = "Номер телефона обязателен для заполнения.";
+                        }
+                        else if (PhoneNumber.Length > 100)
+                        {
+                            error = "Номер телефона не может превышать 100 символов.";
+                        }
+                        else if (!Regex.IsMatch(PhoneNumber, @"^[0-9+\-\(\) ]*$"))
+                        {
+                            error = "Номер телефона может содержать только цифры и символы \"+-()\".";
+                        }
+
+                        break;
+                    case nameof(Email):
+                        if (string.IsNullOrWhiteSpace(Email))
+                        {
+                            error = "Электронная почта обязательна для заполнения.";
+                        }
+                        else if (Email.Length > 100)
+                        {
+                            error = "Электронная почта не может превышать 100 символов.";
+                        }
+                        else if (!Email.Contains("@"))
+                        {
+                            error = "Текст не соответствует формату электронной почты.";
+                        }
+
+                        break;
+                }
+                return error;
+            }
         }
+
+        /// <summary>
+        /// Проверка на наличие ошибок.
+        /// </summary>
+        /// <param name="contact"></param>
+        /// <returns></returns>
+        public bool HasErrors()
+        {
+            return typeof(Contact).GetProperties()
+                .Any(prop => !string.IsNullOrEmpty(this[prop.Name]));
+        }
+
+        public string Error => String.Empty;
     }
 }
