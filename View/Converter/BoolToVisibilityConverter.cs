@@ -8,6 +8,7 @@ namespace View.Converter
     /// <summary>
     /// Конвертер, преобразующий булевы значения в значения перечисления <see cref="Visibility"/>.
     /// </summary>
+    [ValueConversion(typeof(bool), typeof(Visibility))]
     public class BoolToVisibilityConverter : IValueConverter
     {
         /// <summary>
@@ -23,7 +24,11 @@ namespace View.Converter
         /// </returns>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return (value is bool && (bool)value) ? Visibility.Visible : Visibility.Collapsed;
+            if (value is bool boolValue)
+            {
+                return boolValue ? Visibility.Visible : Visibility.Hidden;
+            }
+            return Visibility.Hidden;
         }
 
         /// <summary>
