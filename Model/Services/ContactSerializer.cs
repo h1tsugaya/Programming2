@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
-using View.Model;
 
-namespace View.Model.Services
+namespace Model.Services
 {
     /// <summary>
     /// Класс для сериализации и десериализации контактов в JSON-файл.
@@ -32,7 +26,7 @@ namespace View.Model.Services
         /// Сохранить данные.
         /// </summary>
         /// <param name="contact"></param>
-        public static void SaveContacts(ObservableCollection<Contact> contact)
+        public static void Save(ObservableCollection<Contact> contact)
         {
             File.WriteAllText(AppFolderPath + @"\contacts.json",
                 JsonConvert.SerializeObject(contact, Formatting.Indented, Settings));
@@ -41,7 +35,7 @@ namespace View.Model.Services
         /// <summary>
         /// Загрузить данные.
         /// </summary>
-        public static ObservableCollection<Contact> LoadContacts()
+        public static ObservableCollection<Contact> Load()
         {
             ObservableCollection<Contact> contact = new ObservableCollection<Contact>();
             if (!Directory.Exists(AppFolderPath))
