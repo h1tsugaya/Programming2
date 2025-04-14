@@ -1,4 +1,4 @@
-﻿namespace View.Model.Enums
+﻿namespace Model.Enums
 {
     /// <summary>
     /// Состояния приложения.
