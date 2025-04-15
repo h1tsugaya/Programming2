@@ -1,10 +1,12 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using Model.Services;
 
 namespace Model
 {
     /// <summary>
     /// Класс, представляющий контакт.
+    /// todo: пустые строки между членами здесь и по программе в целом 
     /// </summary>
     public partial class Contact : ObservableValidator
     {
@@ -12,10 +14,12 @@ namespace Model
         /// Имя.
         /// </summary>
         private string _name = string.Empty;
+
         /// <summary>
         /// Номер телефона.
         /// </summary>
         private string _phoneNumber = string.Empty;
+
         /// <summary>
         /// Электронная почта.
         /// </summary>

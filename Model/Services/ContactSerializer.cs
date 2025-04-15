@@ -9,6 +9,7 @@ namespace Model.Services
     /// </summary>
     public static class ContactSerializer
     {
+        // xml
         private static JsonSerializerSettings Settings { get; } = new JsonSerializerSettings
         {
             PreserveReferencesHandling = PreserveReferencesHandling.Objects,

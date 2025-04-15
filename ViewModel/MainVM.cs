@@ -72,6 +72,7 @@ namespace ViewModel
         {
             if (SelectedContact == null) return;
 
+            // TODO: var везде кроме циклов for здесь и по программе
             int currentIndex = Contacts.IndexOf(SelectedContact);
             Contacts.Remove(SelectedContact);
 
@@ -92,6 +93,7 @@ namespace ViewModel
         [RelayCommand]
         public void Apply()
         {
+            // TODO:
             if (SelectedContact == null || SelectedContact.GetErrors().Any()) return;
             if (State == State.Adding) Contacts.Add(SelectedContact);
             State = State.Reading;
